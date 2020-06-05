@@ -103,11 +103,11 @@ https://www.quora.com/What-is-the-scope-of-data-security#:~:text=The%20scope%20o
 
 ### 11. What is the meaning of the CAP theorem? How does it differ from the ACID rules?
 
-**C** - Consistency: Every read receives the most recent write or an error
-**A** - Availabbility: Every request receives a (non-error) response, without the guarantee that it contains the most recent write
-**P** - Partition Tolerannce: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between nodes
+**C** - Consistency: Every read receives the most recent write or an error  
+**A** - Availabbility: Every request receives a (non-error) response, without the guarantee that it contains the most recent write  
+**P** - Partition Tolerannce: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between nodes  
 
-Its impossibble to provide more then two of these.
+Its impossibble to provide more then two of these.  
 
 ![CAP](https://i.imgur.com/cqme5Mu.png)
 [ref](https://towardsdatascience.com/cap-theorem-and-distributed-database-management-systems-5c2be977950e#:~:text=CAP%20Theorem%20is%20a%20concept,on%20our%20unique%20use%20case).
@@ -132,7 +132,7 @@ The CAP theorem implies that in the presence of a network partition, one has to 
 
 ## SQL Database
 
-### 13. What is called relational data model? Which are the model’s components?What is the difference between relation and relationship? Which are the properties of a relationship?
+### 13. What is called relational data model? Which are the model’s components? What is the difference between relation and relationship? Which are the properties of a relationship?
 
 ### 14. Which mathematical theory staysbehind the relational data models?Which theoretical terms are used for describing the model and its components? 
 
@@ -194,45 +194,149 @@ The CAP theorem implies that in the presence of a network partition, one has to 
 
 ### 40. What type of database is MongoDB? Which data model does it use? How does it differ from RDB? 
 
+MongoDB is a NoSQL database, it works with JSON documents... However if you use a libary called "Mongoose" you can set up schemas to define your collections.
+
 ### 41. Which language is MongoDB written in? (Javascript, C, C++)
+
+[ref](https://en.wikipedia.org/wiki/MongoDB)
+
+MongoDB (from humongous) is a cross-platform document-oriented database. "JS, C and C++"
 
 ### 42. Is MongoDB classified as a NoSQL database?
 
+Yes
+
 ### 43. Which format is supported by MongoDB? (SQL, XML and/or BSON)
+
+MongoDB avoids the traditional table-based relational database structure in favor of JSON-like documents with dynamic schemas.
+
+(JSON/BSON)
 
 ### 44. Is MongoDB a graph, key value and/or a document database that provides high performance,high availability, and easy scalability?
 
+Document-based
+
 ### 45. How does MongoDB provide high availability?
 
-### 46. Can MongoDB beused as a file system? Can MongoDB run over single servers only?
+MongoDB is a CP-database and uses *shards* to ensure high availability.
 
-### 47. When MongoDB scales horizontally using sharding for load balancing purpose, who choosesthe shard key, which determines how the data in a collection will be distributed?
+![Shard](https://i.imgur.com/Q5w8ZFC.png)
+
+### 46. Can MongoDB be used as a file system? Can MongoDB run over single servers only?
+
+MongoDB can run over multiple servers, balancing the load and/or duplicating data to keep the system up and running in case of hardware failure.
+
+"yes to both"
+
+### 47. When MongoDB scales horizontally using sharding for load balancing purpose, who chooses the shard key, which determines how the data in a collection will be distributed?
+
+[ref](https://hub.packtpub.com/mongodb-sharding-clusters-choosing-right-shard-key/#:~:text=The%20primary%20shard%20is%20different,at%20the%20moment%20of%20creation.)
+
+The primary shard is automatically selected by MongoDB when we create a new database in a sharded environment. MongoDB will pick the shard that has the least data stored at the moment of creation.
+
+"The user (developer) chooses a shard key, which determines how the data in a collection will be distributed"
 
 ### 48. Is it correct that the primary replica performs all writes and reads by default?
 
+[ref](https://docs.mongodb.com/manual/core/replica-set-primary/)
+
+Yes, by default. However all members of the replica set can accept read operationns.
+
+*note:* the primary is the only member in the replica set that receives **write** operations
+
+![Replica Set](https://i.imgur.com/raD6Jen.png)
+
 ### 49. Is it correct that data in MongoDB has a flexible schema?
+
+[ref](https://docs.mongodb.com/manual/data-modeling/)
+
+Yes.
+
+Data in MongoDB has a flexible schema. Collections do not enforce document structure by default. This flexibility gives you data-modeling choices to match your application and its performance requirements.
 
 ### 50. In MongoDB, at which level are write operations atomic?
 
-### 51. Explain how MongoDB processescollection of documents using Map-Reduce operations.Explain the phases in MongoDB’s Map-Reduce.What would be the maximum document size for results of Map-Reduce operation?
+[ref](https://docs.mongodb.com/manual/core/write-operations-atomicity/)
+
+In MongoDB, a write operation is atomic on the level of a single document, even if the operation modifies multiple embedded documents within a single document.
+
+### 51. Explain how MongoDB processes collection of documents using Map-Reduce operations. Explain the phases in MongoDB’s Map-Reduce.What would be the maximum document size for results of Map-Reduce operation?
+
+TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 
 ### 52. How does MongoDB support transaction management?
 
-### 53. How doindexes support the efficient execution of queries in MongoDB?What are the consequencesof adding an index in MongoDB?
+[ref](https://docs.mongodb.com/manual/core/transactions/)
 
-### 54. Which index is unique and prevents clients from inserting two documents with the samevalue for the _id field?
+In MongoDB, an operation on a single document is atomic. Because you can use embedded documents and arrays to capture relationships between data in a single document structure instead of normalizing across multiple documents and collections, this single-document atomicity obviates the need for multi-document transactions for many practical use cases.
 
-### 55. Which index type provided byMongoDB supports searching for string content in acollection: string, text or char?
+MongoDB supports multi-document transactions. With distributed transactions, transactions can be used across multiple operations, collections, databases, documents, and shards.
+
+*In short*, On single documents Mongo is atomic by nature - however when theres multiple collectionsn you'll need to use multi-document transactions.
+
+### 53. How do indexes support the efficient execution of queries in MongoDB? What are the consequences of adding an index in MongoDB?
+
+Without indexes, MongoDB must perform a collection scan
+
+the query performance gain that we get with indexes doesn’t come for free. With each additional index, we decrease our write speed for a collection.
+
+[ref](https://www.quora.com/What-are-pros-and-cons-of-creating-indexes-in-MongoDB)
+
+### 54. Which index is unique and prevents clients from inserting two documents with the same value for the _id field?
+
+The _id field
+
+All MongoDB collections have an index on the _id field that exists by default.
+
+### 55. Which index type provided by MongoDB supports searching for string content in a collection: string, text or char?
+
+Text
+
+MongoDB provides a text index type that supports searching for string content in a collection. These text indexes do not store language-specific stop words (e.g. “the”, “a”, “or”) and stem the words in a collection to only store root words.
+
+[ref](https://docs.mongodb.com/manual/indexes/)
 
 ### 56. Can MongoDB return sorted results by using the ordering in the index?
 
+Yes.
+
+Indexes are special data structures that store a small portion of the collection’s data set in an easy to traverse form.
+
 ### 57. Which operation adds a new document to the user’s collection?
 
-### 58. Which operator is similar to ORDER BYclause in RDBMS?
+db.collection.insert({...})
 
-### 59. How can you limit the number of documents in result set?How is COUNT function provided in MongoDB?
+### 58. Which operator is similar to ORDER BY clause in RDBMS?
+
+db.collection.find().sort({...})
+
+In addition you can aslo use the *$orderby*
+
+### 59. How can you limit the number of documents in result set? How is COUNT function provided in MongoDB?
+
+db.collection.find(*query*).limit(*number*)
+
+db.collection.count() method does not perform the find() operation but instead counts and returns the number of results that match a query.
 
 ### 60. What are the strengths and weaknesses of MongoDB? When is MongoDB the best choice of database type and when it should be avoided? Name some typical use cases and applications.
+
+[ref](http://alronz.github.io/Factors-Influencing-NoSQL-Adoption/site/MongoDB/Results/Strengths%20and%20Weaknesses/)
+
+
+**Strengths**
+- Easy to scale
+- Flexible document data model 
+- Replication and high availability
+- Rich query cappabilities
+
+**Weaknesses**
+- Not reccomended for relational data
+- No internal transaction suppport
+
+Mongo is very suitable for tasks such as logginng and content management. Mongo isn't an ideal database for application that has data with a relational nature (Social Platforms).
+
+MongoDB excels on applications that requires efficient horizontal scaling, high availability and flexible data model that makes developer's life more easy and at the same time having a data suitable for the document data model.
+
 
 ## Graph-Oriented Database
 
