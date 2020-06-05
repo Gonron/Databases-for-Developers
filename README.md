@@ -38,25 +38,97 @@ MongoDB uses JSON which is a **semi-structured** data.
 
 ### 3. Explain the difference between logical data model and underlying physical data storage organisation. Give examples for some of the databases you are familiar with.
 
-![](https://imgur.com/a/JLJQ0sj)
+https://www.datamodel.com/index.php/articles/what-are-conceptual-logical-and-physical-data-models/?cn-reloaded=1
+
+![](https://i.imgur.com/ZVIQ7Ls.png)
+
+Logical: SQL?
+
+Physical: JSON/XML/NoSQL?
 
 ### 4. What is called a database transaction? Which are the main properties of a transaction? Explain ACID properties.
 
+A **database transaction** is a unit of work that is either completed as a unit or undone as a unit. Proper database transaction processing is critical to maintaining the integrity of your databases.
+
+**A**: Atomic - means that you guarantee that either all of the transaction succeeds or none of it does "All or Nothing"
+**C**: Consistency - means that all your data is consistent.
+**I**: Isolation - means that all transactions will occur in isolation. No transaction will be affected by any other transaction. In other words, a transaction cannot read data from any other transaction that has not yet completed.
+**D**: Durability - means that, once a transaction is committed, it will remain in the system – even if there’s a system crash immediately following the transaction. Any changes from the transaction must be stored permanently.
+
 ### 5. Explain the concurrency problem in database implementation and the techniques for controlling it. How does it relate to transaction management and isolation? Which are the basic transaction isolation levels? 
 
-### 6. What is the purpose of indexing thedatabase? How do indicesoperate? Give some examples of guidance rules of indexing.
+Concurrency control is provided in a database to:
+
+https://www.geeksforgeeks.org/concurrency-control-techniques/
+
+- enforce isolation among transactions.
+- preserve database consistency through consistency preserving execution of transactions.
+- resolve read-write and write-read conflicts.
+
+There's four techniques to control these:
+- Two-Phase Locking Protocol
+- Time Stamp Ordering Protocol
+- Multi Version Concurrency Control
+- Validation Concurrency Control 
+
+**Transaction Isolaion Levels**
+- Serializable: Implements read and writes locks until the transaction is finished. Also implements range locks.
+- Repeatable Reads: Implements read and write locks until the transaction is completed. Doesn’t manage range locks.
+- Read Committed: Implements write locks until the transaction is completed but releases read locks when a SELECT operation is performed.
+- Read Uncommitted: One transaction can see the uncommitted changes made by the other transaction.
+
+### 6. What is the purpose of indexing the database? How do indices operate? Give some examples of guidance rules of indexing.
+
+https://logicalread.com/guidelines-sql-server-indices-mc03/
+
+A database index allows a query to efficiently retrieve data from a database.  Indexes are related to specific tables and consist of one or more keys
 
 ### 7. How to ensure high quality of database model and validate a database? Name some validation techniques. Give examples of validation against user transactions?
 
+???????????
+
 ### 8. Name some criteria for database operations performance. How to estimate the cost of an operation? Name some techniques for performance optimization. 
+
+Avoid over fetching? - Avoid having to many joins?
 
 ### 9. What is called transaction log, what does it contain and how to use it?
 
-### 10. Explain the scope of data securityand protection. Name some major security threads. Describe approaches and measures of securing a database. Name some hardware methods of data protection.
+A transaction log, records all database modifications. When a user issues an INSERT, for example, it is logged in the transaction log. This enables the database to roll back or restore the transaction if a failure were to occur and prevents data corruption
+
+If the log is well strucuted you can re-create the entire DB if it were to be destroyed.
+
+### 10. Explain the scope of data security and protection. Name some major security threads. Describe approaches and measures of securing a database. Name some hardware methods of data protection.
+
+https://www.quora.com/What-is-the-scope-of-data-security#:~:text=The%20scope%20of%20data%20security%20includes%20defining%20data%20security%20policies,company%20on%20an%20ongoing%20basis. ???
 
 ### 11. What is the meaning of the CAP theorem? How does it differ from the ACID rules?
 
-### 12. Explain how to choosean appropriate database type for an application.
+**C** - Consistency: Every read receives the most recent write or an error
+**A** - Availabbility: Every request receives a (non-error) response, without the guarantee that it contains the most recent write
+**P** - Partition Tolerannce: The system continues to operate despite an arbitrary number of messages being dropped (or delayed) by the network between nodes
+
+Its impossibble to provide more then two of these.
+
+![CAP](https://i.imgur.com/cqme5Mu.png)
+[ref](https://towardsdatascience.com/cap-theorem-and-distributed-database-management-systems-5c2be977950e#:~:text=CAP%20Theorem%20is%20a%20concept,on%20our%20unique%20use%20case).
+
+When a network partition failure happens should we decide to
+
+- Cancel the operation and thus decrease the availability but ensure consistency
+- Proceed with the operation and thus provide availability but risk inconsistency
+
+The CAP theorem implies that in the presence of a network partition, one has to choose between consistency and availability. Note that consistency as defined in the CAP theorem is quite different from the consistency guaranteed in ACID database transactions.
+
+**ACID consistency** is all about database rules. If a schema declares that a value must be unique, then a consistent system will enforce uniqueness of that value across all operations.
+
+**CAP consistency** promises that every replica of the same logical value, spread across nodes in a distributed system, has the same exact value at all times.
+
+[ref](https://www.voltdb.com/blog/2015/10/disambiguating-acid-cap/#:~:text=ACID%20consistency%20is%20all%20about%20database%20rules.&text=CAP%20consistency%20promises%20that%20every,exact%20value%20at%20all%20times).
+
+
+### 12. Explain how to choose an appropriate database type for an application.
+
+(Talk about our project)
 
 ## SQL Database
 
